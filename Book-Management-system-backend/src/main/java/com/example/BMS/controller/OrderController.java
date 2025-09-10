@@ -25,6 +25,13 @@ public class OrderController {
     return ResponseEntity.ok(createdOrder);
   }
 
+  // Get current user's past orders (excluding IN_CART)
+  @GetMapping
+  public ResponseEntity<?> getMyOrders(Authentication authentication) {
+    String userEmail = authentication.getName();
+    return ResponseEntity.ok(orderService.getUserOrders(userEmail));
+  }
+
   // --- NEW ENDPOINT: Get user's cart ---
   @GetMapping("/cart")
   public ResponseEntity<CartDto> getCart(Authentication authentication) {

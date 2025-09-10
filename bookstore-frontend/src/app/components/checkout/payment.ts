@@ -12,6 +12,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { CartService, CartDto } from '../../services/cart';
+import { OrderService } from '../../services/order';
 import { Observable } from 'rxjs';
 
 @Component({
@@ -43,7 +44,8 @@ export class PaymentPageComponent {
   constructor(
     private fb: FormBuilder,
     private router: Router,
-    private cartService: CartService
+    private cartService: CartService,
+    private orderService: OrderService
   ) {
     this.cart$ = this.cartService.cart$;
     this.form = this.fb.group({
@@ -82,10 +84,23 @@ export class PaymentPageComponent {
   placeOrder(): void {
     if (!this.isValid()) return;
     this.paying = true;
-    setTimeout(() => {
-      this.paying = false;
-      this.router.navigate(['/checkout/success']);
-    }, 1200);
+    const req = {
+      paymentMethod: this.method,
+      recipientName: (this.form.get('name')!.value || '').trim() || 'Customer',
+      recipientPhone: 'N/A'
+    };
+    this.orderService.createOrder(req).subscribe({
+      next: (order) => {
+        this.paying = false;
+        // Clear local cart state and navigate to success
+        this.cartService.clearCart();
+        this.router.navigate(['/checkout/success'], { state: { orderId: order.orderId } });
+      },
+      error: () => {
+        this.paying = false;
+        this.router.navigate(['/checkout/success']);
+      }
+    });
   }
 
   onCardNumberInput(e: Event) {

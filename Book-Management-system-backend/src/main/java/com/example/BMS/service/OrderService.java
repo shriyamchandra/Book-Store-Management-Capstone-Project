@@ -119,14 +119,19 @@ public class OrderService {
     cart.setRecipientName(orderRequest.getRecipientName());
     cart.setRecipientPhone(orderRequest.getRecipientPhone());
 
-    for (OrderDetails detail : cart.getOrderDetails()) {
-      Book book = detail.getBook();
-      if (book.getQuantityInStock() < detail.getQuantity()) {
-        throw new RuntimeException("Stock changed for " + book.getTitle() + ". Please review your cart.");
-      }
-      book.setQuantityInStock(book.getQuantityInStock() - detail.getQuantity());
-    }
-    return bookOrderRepository.save(cart);
+    // Simulation mode: do NOT decrement stock; just finalize the order
+    // Keep a completed order record
+    BookOrder completed = bookOrderRepository.save(cart);
+
+    // Optionally, create a fresh empty cart for the user for next session
+    createNewCart(user.getCustomer());
+    return completed;
+  }
+
+  @Transactional(readOnly = true)
+  public List<BookOrder> getUserOrders(String userEmail) {
+    User user = findUserByEmail(userEmail);
+    return bookOrderRepository.findByCustomerAndStatusNot(user.getCustomer(), "IN_CART");
   }
 
   private User findUserByEmail(String email) {

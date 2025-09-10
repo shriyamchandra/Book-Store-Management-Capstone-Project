@@ -1,8 +1,34 @@
 <div class="page-container">
   <h1>Your Orders</h1>
-  <div class="empty">
-    <p>No orders yet.</p>
-    <a routerLink="/" class="btn-primary" style="width:auto;display:inline-block;">Start shopping</a>
-  </div>
-</div>
 
+  <div *ngIf="loading" class="empty"><p>Loading…</p></div>
+
+  <ng-container *ngIf="!loading">
+    <div *ngIf="!orders.length" class="empty">
+      <p>No orders yet.</p>
+      <a routerLink="/" class="btn-primary" style="width:auto;display:inline-block;">Start shopping</a>
+    </div>
+
+    <div class="orders-list" *ngIf="orders.length">
+      <div class="order-card" *ngFor="let o of orders">
+        <div class="order-head">
+          <div><strong>Order:</strong> {{ o.orderId }}</div>
+          <div><strong>Date:</strong> {{ o.orderDate }}</div>
+          <div><strong>Status:</strong> {{ o.status }}</div>
+          <div><strong>Total:</strong> {{ o.orderTotal | currency }}</div>
+        </div>
+        <div class="order-items">
+          <div class="item" *ngFor="let d of o.orderDetails">
+            <img [src]="d.book.imageUrl || '/assets/placeholder-book.png'" alt="cover" />
+            <div class="meta">
+              <div class="title">{{ d.book.title }}</div>
+              <div class="author">by {{ d.book.author }}</div>
+              <div class="qty">Qty: {{ d.quantity }}</div>
+              <div class="price">{{ d.subtotal | currency }}</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </ng-container>
+</div>
