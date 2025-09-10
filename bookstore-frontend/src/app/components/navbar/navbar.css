@@ -1,0 +1,306 @@
+.navbar-brand {
+  display: flex;
+  align-items: center;
+  color: var(--text-primary);
+  text-decoration: none;
+}
+
+.spacer {
+  flex: 1 1 auto;
+}
+
+.search-container { position: relative; display: flex; align-items: flex-start; transition: width .25s ease, top .2s ease; }
+
+.search-container.active {
+  position: fixed;              /* Lift above toolbar */
+  top: 80px;                    /* Push below browser URL bar */
+  left: 50%;
+  transform: translateX(-50%);
+  width: min(680px, calc(100% - 24px));
+  z-index: 1002;                /* Above overlay (999) */
+}
+
+/* Unified search card panel to match site panels */
+.search-card {
+  width: 100%;
+  background: var(--surface-color);
+  border: 1px solid var(--border-color);
+  border-radius: 16px;
+  box-shadow: 0 16px 36px var(--shadow-color);
+  padding: 12px;
+}
+/* Ensure Material input matches the same glass tone */
+.search-card .mat-mdc-text-field-wrapper {
+  background: var(--surface-color) !important;
+  border-radius: 12px;
+  box-shadow: none;
+}
+.search-card .mat-mdc-form-field-subscript-wrapper { display: none; }
+.search-card .mdc-line-ripple { background-color: var(--border-color) !important; }
+.filters-row { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+.filters-toggle { margin-top: 6px; }
+.chip, .chip-group .chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 10px;
+  border-radius: 999px;
+  border: 1px solid var(--border-color);
+  background: var(--surface-color);
+  color: var(--text-primary);
+  cursor: pointer;
+  outline: none;
+}
+.chip:hover { background: rgba(127,127,127,.08); }
+.chip.active { border-color: var(--primary-color); }
+.chip:focus-visible { box-shadow: 0 0 0 2px var(--border-color); }
+.chip-label { color: var(--text-secondary); margin-right: 4px; }
+
+/* Results inside the card (override older rules below) */
+.search-card .search-results {
+  position: static !important;
+  margin-top: 8px;
+  background: var(--surface-color);
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  box-shadow: 0 20px 40px var(--shadow-color);
+  width: 100%;
+  max-height: 360px;
+  overflow-y: auto;
+  left: auto;
+  right: auto;
+}
+.search-card .result-item { display: grid; grid-template-columns: 56px 1fr auto; align-items: center; gap: 12px; padding: 10px 14px; color: var(--text-primary); text-decoration: none; }
+.search-card .result-item:hover { background: rgba(127,127,127,.10); }
+.search-card .search-result-image { width: 56px; height: 84px; object-fit: cover; border-radius: 6px; border: 1px solid var(--border-color); }
+.search-card .search-result-title { font-weight: 700; font-size: 14px; margin-bottom: 2px; }
+.search-card .search-result-author { font-size: 12px; color: var(--text-secondary); }
+.search-card .search-result-meta { display: grid; justify-items: end; gap: 4px; }
+.search-card .search-result-meta .price { font-weight: 700; }
+.search-card .search-result-meta .stock { color: var(--text-secondary); font-size: 12px; }
+.search-card .search-result-meta .stock.out { color: #ef4444; }
+
+.search-input-wrapper { flex-grow: 1; }
+
+.search-full-width { width: 100%; }
+.search-field .mdc-text-field--filled { background: transparent; }
+.search-field .mat-mdc-form-field-infix { padding-top: 10px !important; }
+.filters { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; margin-top: 6px; }
+.chip, .chip-group .chip { display: inline-flex; align-items: center; gap: 6px; padding: 6px 10px; border-radius: 999px; border: 1px solid var(--border-color); background: var(--surface-color); color: var(--text-primary); cursor: pointer; }
+.chip:hover { background: rgba(127,127,127,.08); }
+.chip.active { border-color: var(--primary-color); }
+.chip-label { color: var(--text-secondary); margin-right: 4px; }
+
+.search-results { position: absolute; top: calc(100% + 6px); left: 0; background: var(--surface-color); border: 1px solid var(--border-color); border-radius: 12px; box-shadow: 0 16px 30px var(--shadow-color); z-index: 1003; width: 360px; max-height: 440px; overflow-y: auto; }
+
+.results-list { padding: 0; margin: 0; background: transparent; }
+
+/* Ensure brand respects theme */
+.navbar-brand {
+  display: flex;
+  align-items: center;
+  color: var(--text-primary);
+  text-decoration: none;
+}
+
+.spacer {
+  flex: 1 1 auto;
+}
+
+.search-container {
+  position: relative;
+  display: flex;
+  align-items: center;
+  transition: width 0.3s ease-in-out;
+  z-index: 1000; /* Ensure it's above the overlay */
+}
+
+.search-container.active {
+  width: 100%; /* Expand to full width when active */
+}
+
+.search-input-wrapper {
+  flex-grow: 1; /* Allow input to take available space */
+}
+
+.search-full-width {
+  width: 100%; /* Make mat-form-field take full width of its container */
+}
+
+/* legacy dropdown style (disabled by new glass card) */
+.search-results {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  background: var(--surface-color);
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  box-shadow: 0 16px 30px var(--shadow-color);
+  z-index: 1000; /* Ensure it's above the overlay */
+  width: 360px;
+  max-height: 440px;
+  overflow-y: auto;
+}
+
+.results-list {
+  padding: 0;
+  margin: 0;
+}
+
+.result-item { display: grid; grid-template-columns: 56px 1fr auto; align-items: center; gap: 12px; padding: 10px 14px; cursor: pointer; color: var(--text-primary); text-decoration: none; }
+
+.result-item:hover { background: rgba(127,127,127,.08); }
+
+.search-result-image { width: 56px; height: 84px; object-fit: cover; border-radius: 6px; border: 1px solid var(--border-color); }
+
+.search-result-info {
+  flex-grow: 1; /* Allow info to take remaining space */
+}
+
+.search-result-title { font-weight: 700; font-size: 14px; margin-bottom: 2px; }
+
+.search-result-author { font-size: 12px; color: var(--text-secondary); }
+.search-result-meta { display: grid; justify-items: end; gap: 4px; }
+.search-result-meta .price { font-weight: 700; }
+.search-result-meta .stock { color: var(--text-secondary); font-size: 12px; }
+.search-result-meta .stock.out { color: #ef4444; }
+
+/* Adjustments for mat-form-field */
+.search-input-container .mat-form-field {
+  width: 250px;
+}
+
+.search-input-container .mat-form-field-infix {
+    border-top: none;
+}
+
+.search-input-container .mat-form-field-underline {
+    display: none;
+}
+
+.search-input-container .mat-input-element { color: var(--text-primary); }
+
+.search-input-container .mat-form-field-label { color: var(--text-secondary); }
+
+.cart-badge {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #f44336; /* Material Design Red */
+  color: white;
+  border-radius: 50%;
+  font-size: 12px;
+  height: 20px;
+  min-width: 20px;
+  padding: 0 6px;
+  position: relative;
+  top: -8px; /* Adjust position relative to the icon/text */
+  left: -4px; /* Adjust position relative to the icon/text */
+}
+
+.search-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.45);
+  /* No blur to keep search content crisp */
+  z-index: 999; /* Below the search bar, above everything else */
+  transition: opacity 0.3s ease-in-out;
+}
+
+/* Account dropdown */
+.account-overlay { position: fixed; inset: 0; background: transparent; z-index: 1001; }
+.account-menu {
+  position: fixed;
+  top: 64px;
+  right: 16px;
+  background: var(--surface-color);
+  color: var(--text-primary);
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  box-shadow: 0 16px 36px var(--shadow-color);
+  z-index: 1006; /* above toolbar */
+  width: 240px;
+  overflow: hidden;
+}
+.account-menu .menu-section { padding: 6px; border-top: 1px solid var(--border-color); }
+.account-menu .menu-section:first-child { border-top: 0; }
+.account-menu .item { width: 100%; text-align: left; display: flex; gap: 10px; align-items: center; padding: 10px 12px; border-radius: 8px; color: var(--text-primary); background: transparent; border: 0; cursor: pointer; text-decoration: none; }
+.account-menu .item:hover { background: rgba(127,127,127,.08); }
+.account-menu .item mat-icon { font-size: 20px; width: 20px; height: 20px; }
+.account-menu .item.danger { color: #ef4444; }
+
+.no-results { text-align: center; padding: 16px; color: var(--text-secondary); }
+.no-results mat-icon { display: block; margin: 0 auto 6px; }
+
+.result-item:hover { background-color: rgba(127,127,127,.08); }
+
+.search-result-image { width: 56px; height: 84px; object-fit: cover; margin-right: 12px; border-radius: 6px; border: 1px solid var(--border-color); }
+
+.search-result-info {
+  flex-grow: 1; /* Allow info to take remaining space */
+}
+
+.search-result-title {
+  font-weight: bold;
+  font-size: 14px;
+  margin-bottom: 2px;
+}
+
+.search-result-author { font-size: 12px; color: var(--text-secondary); }
+
+/* Adjustments for mat-form-field */
+.search-input-container .mat-form-field {
+  width: 250px;
+}
+
+.search-input-container .mat-form-field-infix {
+    border-top: none;
+}
+
+.search-input-container .mat-form-field-underline {
+    display: none;
+}
+
+.search-input-container .mat-input-element { color: var(--text-primary); }
+
+.search-input-container .mat-form-field-label { color: var(--text-secondary); }
+
+/* Make the toolbar itself glass and themed for dark mode */
+mat-toolbar, .mat-toolbar, .mat-mdc-toolbar, .mdc-top-app-bar {
+  background: var(--surface-color) !important;
+  color: var(--text-primary) !important;
+  border-bottom: 1px solid var(--border-color);
+  position: relative; /* create stacking context above overlay */
+  z-index: 1005;      /* ensure toolbar + search sit above overlay */
+}
+
+/* Ensure icons inherit the correct color */
+mat-toolbar .mat-icon, .mat-toolbar .mat-mdc-icon-button, .mat-toolbar a, .mat-toolbar button {
+  color: var(--text-primary) !important;
+}
+
+.cart-badge {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #f44336; /* Material Design Red */
+  color: white;
+  border-radius: 50%;
+  font-size: 12px;
+  height: 20px;
+  min-width: 20px;
+  padding: 0 6px;
+  position: relative;
+  top: -8px; /* Adjust position relative to the icon/text */
+  left: -4px; /* Adjust position relative to the icon/text */
+}
+
+/* --- Final unifier: use solid surfaces (no glass) --- */
+.search-container .search-results { background: var(--surface-color) !important; border-color: var(--border-color) !important; }
+.search-container .chip, .search-container .chip-group .chip { background: var(--surface-color) !important; }
+.search-container .filters { background: transparent !important; }
+.search-container .result-item { background: transparent !important; }
+.search-container .result-item + .result-item { border-top: 1px solid rgba(127,127,127,.15); }

@@ -1,0 +1,94 @@
+<div class="page-container">
+  <section class="hero">
+    <div class="hero-inner">
+      <h1>Find Your Next Great Read</h1>
+      <p>Discover bestsellers, hidden gems, and everything between. Curated with care.</p>
+      <a class="btn-primary cta" href="#catalog">Browse collection</a>
+    </div>
+  </section>
+
+  <!-- Trending rail -->
+  <section class="trending" *ngIf="!isLoading && trendingBooks.length">
+    <div class="trending-head">
+      <div class="left">
+        <span class="pill">Trending now</span>
+        <h3>Popular with readers</h3>
+      </div>
+      <div class="right">
+        <button mat-icon-button (click)="scrollRail(trendRail, -1)" aria-label="Scroll left">
+          <mat-icon>chevron_left</mat-icon>
+        </button>
+        <button mat-icon-button (click)="scrollRail(trendRail, 1)" aria-label="Scroll right">
+          <mat-icon>chevron_right</mat-icon>
+        </button>
+      </div>
+    </div>
+
+    <div class="rail" #trendRail>
+      <a class="rail-card" *ngFor="let book of trendingBooks" (click)="navigateToDetail(book.bookId)" tabindex="0" (keydown.enter)="navigateToDetail(book.bookId)">
+        <div class="thumb">
+          <img [src]="book.imageUrl || 'assets/placeholder-cover.jpg'" [alt]="'Cover of ' + book.title" />
+        </div>
+        <div class="info">
+          <div class="t">{{ book.title }}</div>
+          <div class="a">{{ book.author }}</div>
+          <div class="p">{{ book.price | currency }}</div>
+        </div>
+      </a>
+    </div>
+  </section>
+
+  <section class="toolbar" id="catalog">
+    <div class="left">
+      <h2>All Books</h2>
+      <span class="count" *ngIf="!isLoading">{{ displayBooks.length }} items</span>
+    </div>
+    <div class="right">
+      <label class="sort">
+        <span>Sort by</span>
+        <select [value]="sortBy" (change)="onSortChange($any($event.target).value)">
+          <option value="best">Best match</option>
+          <option value="priceAsc">Price: Low to High</option>
+          <option value="priceDesc">Price: High to Low</option>
+          <option value="title">Title A–Z</option>
+        </select>
+      </label>
+      <button mat-stroked-button class="density" (click)="toggleDensity()">
+        <mat-icon>{{ density === 'comfortable' ? 'grid_view' : 'view_module' }}</mat-icon>
+        {{ density === 'comfortable' ? 'Compact' : 'Comfortable' }}
+      </button>
+    </div>
+  </section>
+
+  <div *ngIf="isLoading" class="skeleton-grid">
+    <div class="skeleton-card" *ngFor="let s of [1,2,3,4,5,6,7,8]"></div>
+  </div>
+
+  <div *ngIf="!isLoading" class="card-grid" [class.compact]="density==='compact'">
+    <article *ngFor="let book of displayBooks" class="book-card" (click)="navigateToDetail(book.bookId)" tabindex="0" (keydown.enter)="navigateToDetail(book.bookId)" aria-label="View details for {{ book.title }}">
+      <div class="media">
+        <img [src]="book.imageUrl || 'assets/placeholder-cover.jpg'" [alt]="'Cover of ' + book.title" />
+        <div class="overlay">
+          <button mat-stroked-button color="primary">View details</button>
+          <button mat-raised-button color="primary" (click)="addToCart(book, $event)">Add to cart</button>
+        </div>
+        <div class="badge" *ngIf="book.quantityInStock <= 2 && book.quantityInStock > 0">Low stock</div>
+        <div class="badge danger" *ngIf="book.quantityInStock === 0">Out of stock</div>
+      </div>
+      <div class="meta">
+        <h3 class="title">{{ book.title }}</h3>
+        <p class="author">by {{ book.author }}</p>
+        <div class="bottom">
+          <span class="price">{{ book.price | currency }}</span>
+          <div class="stars" aria-label="rating">
+            <mat-icon>star</mat-icon>
+            <mat-icon>star</mat-icon>
+            <mat-icon>star</mat-icon>
+            <mat-icon>star_half</mat-icon>
+            <mat-icon>star_border</mat-icon>
+          </div>
+        </div>
+      </div>
+    </article>
+  </div>
+</div>

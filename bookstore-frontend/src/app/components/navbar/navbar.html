@@ -1,0 +1,103 @@
+<mat-toolbar>
+  <a class="navbar-brand" routerLink="/">
+    <mat-icon>book</mat-icon>
+    <span>Bookstore</span>
+  </a>
+
+  <div class="spacer"></div>
+
+  <div class="search-container" [class.active]="isSearchActive">
+    <div class="search-card" *ngIf="isSearchActive">
+      <div class="search-input-wrapper">
+        <mat-form-field appearance="fill" class="search-full-width search-field">
+          <mat-icon matPrefix>search</mat-icon>
+          <input matInput placeholder="Search books by title or author" [formControl]="searchControl" #searchInput autofocus>
+          <button mat-icon-button matSuffix aria-label="Close search" (click)="toggleSearch()">
+            <mat-icon>close</mat-icon>
+          </button>
+        </mat-form-field>
+      </div>
+
+      <div class="filters-row">
+        <div class="filters-toggle">
+          <button type="button" class="chip" (click)="showFilters = !showFilters">
+            <mat-icon>tune</mat-icon>
+            Filters
+          </button>
+        </div>
+        <div class="filters" *ngIf="showFilters">
+          <button type="button" class="chip" [class.active]="filterInStock" (click)="toggleInStock()">
+            <mat-icon>{{ filterInStock ? 'check_box' : 'check_box_outline_blank' }}</mat-icon>
+            In Stock
+          </button>
+          <div class="chip-group" aria-label="Price filter">
+            <span class="chip-label">Price:</span>
+            <button class="chip" [class.active]="filterPrice==='all'" (click)="setPriceFilter('all')">All</button>
+            <button class="chip" [class.active]="filterPrice==='0-10'" (click)="setPriceFilter('0-10')">0–10</button>
+            <button class="chip" [class.active]="filterPrice==='10-25'" (click)="setPriceFilter('10-25')">10–25</button>
+            <button class="chip" [class.active]="filterPrice==='25-50'" (click)="setPriceFilter('25-50')">25–50</button>
+            <button class="chip" [class.active]="filterPrice==='50+'" (click)="setPriceFilter('50+')">50+</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="search-results" *ngIf="($any(searchControl.value)?.length || 0) >= 2">
+        <div *ngIf="results.length > 0; else nores" class="results-list">
+          <a *ngFor="let book of results" (click)="goToBook(book.bookId)" class="result-item">
+            <img [src]="book.imageUrl || 'assets/placeholder-cover.jpg'" [alt]="book.title" class="search-result-image">
+            <div class="search-result-info">
+              <div class="search-result-title">{{ book.title }}</div>
+              <div class="search-result-author">by {{ book.author }}</div>
+            </div>
+            <div class="search-result-meta">
+              <span class="price">{{ book.price | currency }}</span>
+              <span class="stock" [class.out]="book.quantityInStock===0">{{ book.quantityInStock===0 ? 'Out' : 'In' }} stock</span>
+            </div>
+          </a>
+        </div>
+        <ng-template #nores>
+          <div class="no-results">
+            <mat-icon>search_off</mat-icon>
+            <p>No results. Try a different query.</p>
+          </div>
+        </ng-template>
+      </div>
+    </div>
+  </div>
+  <button mat-icon-button (click)="toggleSearch()" *ngIf="!isSearchActive">
+    <mat-icon>search</mat-icon>
+  </button>
+
+  <a mat-button routerLink="/cart">
+    <mat-icon>shopping_cart</mat-icon>
+    Cart
+    <span *ngIf="cartItemCount > 0" class="cart-badge">{{ cartItemCount }}</span>
+  </a>
+  <button mat-icon-button *ngIf="isLoggedIn" aria-label="Account menu" (click)="toggleAccountMenu()">
+    <mat-icon>account_circle</mat-icon>
+  </button>
+  <a mat-button routerLink="/login" *ngIf="!isLoggedIn">
+    <mat-icon>login</mat-icon>
+    Login
+  </a>
+  
+</mat-toolbar>
+
+<div class="search-overlay" *ngIf="isSearchActive" (click)="toggleSearch()"></div>
+
+<!-- Account dropdown -->
+<div class="account-overlay" *ngIf="isAccountMenuOpen" (click)="closeAccountMenu()"></div>
+<div class="account-menu" *ngIf="isAccountMenuOpen">
+  <div class="menu-section">
+    <button class="item" (click)="goProfile()"><mat-icon>person</mat-icon> My Profile</button>
+    <button class="item" (click)="goOrders()"><mat-icon>receipt_long</mat-icon> My Orders</button>
+    <a class="item" routerLink="/cart"><mat-icon>shopping_bag</mat-icon> Cart</a>
+  </div>
+  <div class="menu-section">
+    <a class="item" routerLink="/privacy"><mat-icon>policy</mat-icon> Privacy</a>
+    <a class="item" routerLink="/contact"><mat-icon>help</mat-icon> Help & Support</a>
+  </div>
+  <div class="menu-section">
+    <button class="item danger" (click)="logout()"><mat-icon>logout</mat-icon> Logout</button>
+  </div>
+</div>

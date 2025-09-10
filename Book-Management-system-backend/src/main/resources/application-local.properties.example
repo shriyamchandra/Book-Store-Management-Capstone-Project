@@ -1,0 +1,10 @@
+# Example local-only config (DO NOT COMMIT REAL SECRETS)
+# Copy to application-local.properties and fill your values locally.
+
+# Gemini
+gemini.api.key=YOUR_GEMINI_API_KEY
+
+# To use this file, run with:
+#   ./mvnw spring-boot:run -Dspring-boot.run.profiles=local
+# or
+#   java -jar target/Book-Management-system-0.0.1-SNAPSHOT.jar --spring.profiles.active=local

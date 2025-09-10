@@ -1,0 +1,13 @@
+.rating-section {
+  margin-bottom: 20px;
+}
+
+.stars mat-icon {
+  color: gold; /* Or any color you prefer for filled stars */
+  cursor: pointer;
+  font-size: 32px;
+}
+
+.full-width {
+  width: 100%;
+}

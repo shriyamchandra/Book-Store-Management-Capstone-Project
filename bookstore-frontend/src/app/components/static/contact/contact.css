@@ -1,0 +1,17 @@
+.static-page { padding: 28px 16px; }
+.container { max-width: 900px; margin: 0 auto; }
+h1 { margin: 0 0 12px; }
+.info { list-style: none; padding: 0; }
+.info li { margin: 6px 0; color: var(--text-secondary); }
+a { color: var(--text-primary); text-decoration: underline; }
+a:hover { opacity: .8; }
+
+/* Panel and cards (match Terms page look) */
+.panel { background: var(--surface-color); color: var(--text-primary); border: 1px solid var(--border-color); border-radius: 12px; box-shadow: 0 10px 24px var(--shadow-color); padding: 20px 24px; }
+.lede { margin-bottom: 12px; color: var(--text-secondary); }
+.cards { display: grid; grid-template-columns: 1fr; gap: 12px; }
+.card { border: 1px solid var(--border-color); border-radius: 12px; padding: 16px; background: transparent; }
+
+@media (min-width: 720px) {
+  .cards { grid-template-columns: 1fr 1fr; }
+}

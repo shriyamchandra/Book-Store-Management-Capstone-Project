@@ -1,0 +1,8 @@
+.static-page { padding: 28px 16px; }
+.container { max-width: 900px; margin: 0 auto; }
+h1 { margin: 0 0 12px; }
+ul { padding-left: 18px; }
+li { margin: 6px 0; color: var(--text-secondary); }
+p { color: var(--text-secondary); }
+a { color: var(--text-primary); text-decoration: underline; }
+a:hover { opacity: .8; }

@@ -1,0 +1,38 @@
+.page-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: calc(100vh - 128px);
+}
+
+mat-card {
+  width: 100%;
+  max-width: 420px;
+  padding: 32px;
+}
+
+mat-card-title {
+  font-family: 'Poppins', sans-serif;
+  text-align: center;
+  font-weight: 700;
+  font-size: 28px;
+  color: var(--text-primary);
+  margin-bottom: 24px;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.register-cta {
+  margin-top: 8px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.register-cta .hint {
+  color: var(--text-secondary);
+}

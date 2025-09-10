@@ -1,0 +1,32 @@
+.error-dialog-container {
+  text-align: center;
+  padding: 24px;
+}
+
+.error-icon {
+  color: #f44336;
+  /* Red for error */
+  font-size: 72px;
+  width: 72px;
+  height: 72px;
+  line-height: 72px;
+}
+
+.dialog-title {
+  font-size: 24px;
+  font-weight: 600;
+  margin-top: 16px;
+  margin-bottom: 12px;
+}
+
+.dialog-content p {
+  margin: 0 0 8px 0;
+  color: #666;
+}
+
+.dialog-actions {
+  justify-content: center;
+  margin-top: 24px;
+  gap: 16px;
+  /* Adds space between the buttons */
+}

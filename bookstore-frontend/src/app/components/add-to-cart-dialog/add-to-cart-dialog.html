@@ -1,0 +1,16 @@
+<h2 mat-dialog-title>Successfully Added to Cart!</h2>
+
+<mat-dialog-content class="content">
+  <img class="book-cover" [src]="data.item.book.imageUrl || 'assets/placeholder-cover.jpg'"
+    alt="Cover of {{ data.item.book.title }}">
+  <div class="book-info">
+    <p class="title">{{ data.item.book.title }}</p>
+    <p class="author">by {{ data.item.book.author }}</p>
+    <p class="quantity">Quantity: {{ data.item.quantity }}</p>
+  </div>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button mat-button [mat-dialog-close]="false">Continue Shopping</button>
+  <button mat-raised-button color="primary" [mat-dialog-close]="true">View Cart</button>
+</mat-dialog-actions>

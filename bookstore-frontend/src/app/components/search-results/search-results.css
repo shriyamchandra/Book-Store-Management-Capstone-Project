@@ -1,0 +1,36 @@
+.book-list-container {
+    padding: 20px;
+  }
+  
+  .book-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 20px;
+  }
+  
+  .book-card {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .book-card img {
+    height: 300px;
+    object-fit: cover;
+  }
+  
+  .mat-card-header {
+    flex-shrink: 0;
+  }
+  
+  .mat-card-content {
+    flex-grow: 1;
+  }
+  
+  .price {
+    font-weight: bold;
+  }
+  
+  .mat-card-actions {
+    justify-content: space-between;
+  }
+  

@@ -1,0 +1,8 @@
+.static-page { padding: 28px 16px; }
+.container { max-width: 900px; margin: 0 auto; }
+h1 { margin: 0 0 12px; }
+.links { list-style: none; padding: 0; }
+.links li { margin: 6px 0; }
+.contact-card { margin-top: 16px; padding: 12px 16px; border-radius: 12px; background: var(--surface-color); border: 1px solid var(--border-color); box-shadow: 0 6px 16px var(--shadow-color); }
+a { color: var(--text-primary); text-decoration: underline; }
+a:hover { opacity: .8; }

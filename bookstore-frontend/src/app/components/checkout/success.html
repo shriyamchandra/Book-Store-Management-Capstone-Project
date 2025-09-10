@@ -1,0 +1,15 @@
+<div class="success-container">
+  <mat-card class="success-card">
+    <div class="badge"><mat-icon>check</mat-icon></div>
+    <h1>Order Placed</h1>
+    <p class="lede">Your order has been placed successfully. A confirmation email will be sent shortly.</p>
+    <div class="meta">
+      <span>Order ID: <strong>{{ orderId }}</strong></span>
+      <span>Estimated delivery: <strong>{{ eta }}</strong></span>
+    </div>
+    <div class="actions">
+      <a mat-raised-button color="primary" routerLink="/">Continue Shopping</a>
+      <a mat-stroked-button routerLink="/cart">View Cart</a>
+    </div>
+  </mat-card>
+</div>

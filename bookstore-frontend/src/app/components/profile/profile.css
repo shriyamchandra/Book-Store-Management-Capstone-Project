@@ -1,0 +1,18 @@
+.profile-form { max-width: 900px; margin-top: 8px; }
+.grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+.panel { background: var(--surface-color); border: 1px solid var(--border-color); border-radius: 12px; padding: 16px; box-shadow: 0 8px 20px var(--shadow-color); }
+.panel h3 { margin: 0 0 12px; }
+.row { display: grid; gap: 6px; margin-bottom: 12px; }
+.row.two { grid-template-columns: 1fr 1fr; gap: 12px; }
+/* Ensure inner columns stack label above input for alignment */
+.row.two > div { display: grid; gap: 6px; align-items: start; }
+.row.two label { display: block; margin: 0; }
+.row label { color: var(--text-secondary); font-size: 12px; }
+.row .req { color: #ef4444; }
+.row input { padding: 10px 12px; border-radius: 8px; border: 1px solid var(--border-color); background: var(--surface-color); color: var(--text-primary); }
+.row input:focus { outline: none; border-color: rgba(127,127,127,.5); box-shadow: 0 0 0 3px rgba(127,127,127,.15); }
+.error { color: #ef4444; font-size: 12px; }
+.actions { margin-top: 14px; display: flex; justify-content: flex-end; }
+.actions .save-btn { width: auto; }
+
+@media (max-width: 900px) { .grid { grid-template-columns: 1fr; } }

@@ -1,0 +1,51 @@
+<div class="page-container">
+  <h1>My Profile</h1>
+
+  <form [formGroup]="form" (ngSubmit)="save()" class="profile-form" novalidate>
+    <div class="grid">
+      <div class="panel">
+        <h3>Contact</h3>
+        <div class="row">
+          <label>Email</label>
+          <input type="email" [value]="profile?.email" disabled />
+        </div>
+        <div class="row">
+          <label for="fullName">Full name <span class="req" aria-hidden="true">*</span></label>
+          <input id="fullName" type="text" formControlName="fullName" placeholder="e.g., Jane Doe" />
+          <small class="error" *ngIf="f.fullName.touched && f.fullName.invalid">Please enter your name</small>
+        </div>
+        <div class="row">
+          <label for="mobileNumber">Mobile <span class="req" aria-hidden="true">*</span></label>
+          <input id="mobileNumber" type="tel" formControlName="mobileNumber" placeholder="10-digit number" />
+          <small class="error" *ngIf="f.mobileNumber.touched && f.mobileNumber.invalid">Enter a valid mobile number</small>
+        </div>
+      </div>
+
+      <div class="panel">
+        <h3>Address</h3>
+        <div class="row">
+          <label for="address">Address</label>
+          <input id="address" type="text" formControlName="address" placeholder="House, Street, Area" />
+        </div>
+        <div class="row two">
+          <div>
+            <label for="city">City</label>
+            <input id="city" type="text" formControlName="city" placeholder="City" />
+          </div>
+          <div>
+            <label for="pincode">Pincode</label>
+            <input id="pincode" type="text" formControlName="pincode" placeholder="ZIP / PIN" />
+          </div>
+        </div>
+        <div class="row">
+          <label for="country">Country</label>
+          <input id="country" type="text" formControlName="country" placeholder="Country" />
+        </div>
+      </div>
+    </div>
+
+    <div class="actions">
+      <button class="btn-primary save-btn" type="submit" [disabled]="saving">{{ saving ? 'Saving…' : 'Save changes' }}</button>
+    </div>
+  </form>
+</div>

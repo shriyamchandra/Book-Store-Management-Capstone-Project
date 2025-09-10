@@ -1,0 +1,23 @@
+:host.mat-mdc-snack-bar-container {
+  --mdc-snackbar-container-color: var(--surface-color);
+  --mat-mdc-snack-bar-button-color: var(--primary-color);
+  border-radius: 8px;
+  border: 1px solid var(--border-color);
+  box-shadow: 0 10px 20px var(--shadow-color);
+}
+
+.toast-container {
+  display: flex;
+  align-items: center;
+  color: var(--text-primary);
+  font-weight: 600;
+}
+
+.check-icon {
+  color: #4caf50;
+  /* Success Green */
+  margin-right: 12px;
+  font-size: 28px;
+  height: 28px;
+  width: 28px;
+}

@@ -1,0 +1,17 @@
+# Global ignores
+.DS_Store
+*.log
+.env
+.env.*
+node_modules/
+
+# Frontend
+bookstore-frontend/node_modules/
+bookstore-frontend/dist/
+bookstore-frontend/.angular/cache/
+
+# Backend
+Book-Management-system-backend/target/
+Book-Management-system-backend/.mvn/wrapper/maven-wrapper.jar
+Book-Management-system-backend/src/main/resources/application-local.properties
+

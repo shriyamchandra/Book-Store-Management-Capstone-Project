@@ -1,0 +1,41 @@
+<button class="ai-fab" mat-fab color="primary" (click)="toggle()" aria-label="Open chat">
+  <mat-icon>smart_toy</mat-icon>
+  <span class="badge" *ngIf="!isOpen">AI</span>
+  <mat-icon class="close" *ngIf="isOpen">close</mat-icon>
+</button>
+
+<div class="ai-chat" *ngIf="isOpen">
+  <div class="ai-chat-header">
+    <div class="left">
+      <mat-icon>smart_toy</mat-icon>
+      <div class="title">
+        <strong>Book Assistant</strong>
+        <small *ngIf="bookId">Context: Book #{{ bookId }}</small>
+      </div>
+    </div>
+    <div class="right">
+      <button mat-stroked-button color="primary" *ngIf="bookId" (click)="summarizeCurrent()" [disabled]="busy">
+        <mat-icon>article</mat-icon>&nbsp;Summarize
+      </button>
+      <button mat-stroked-button color="primary" (click)="recommendFromCurrent()" [disabled]="busy">
+        <mat-icon>thumb_up</mat-icon>&nbsp;Recommend
+      </button>
+    </div>
+  </div>
+
+  <div class="ai-chat-body">
+    <div class="bubble" *ngFor="let m of convo" [class.user]="m.role === 'user'" [class.model]="m.role === 'model'">
+      <div class="text" [innerHTML]="renderMessage(m.text)"></div>
+    </div>
+    <div class="bubble model" *ngIf="busy"><div class="text">Thinking…</div></div>
+  </div>
+
+  <div class="ai-chat-input">
+    <mat-form-field appearance="outline" class="field">
+      <input matInput [(ngModel)]="input" (keyup.enter)="send()" [disabled]="busy" placeholder="Ask me about books…" />
+    </mat-form-field>
+    <button mat-raised-button color="primary" (click)="send()" [disabled]="busy || !input.trim()">
+      <mat-icon>send</mat-icon>
+    </button>
+  </div>
+</div>

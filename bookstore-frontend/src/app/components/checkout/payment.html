@@ -1,0 +1,116 @@
+<div class="checkout-container">
+  <mat-card class="summary-card">
+    <h2>Order Summary</h2>
+    <div class="row" *ngIf="cart$ | async as cart">
+      <span>Items</span>
+      <span>{{ cart?.items?.length || 0 }}</span>
+    </div>
+    <div class="row" *ngIf="cart$ | async as cart">
+      <span>Subtotal</span>
+      <span>{{ (cart?.totalAmount || 0) | currency }}</span>
+    </div>
+    <div class="row">
+      <span>Shipping</span>
+      <span>Free</span>
+    </div>
+    <mat-divider></mat-divider>
+    <div class="row total" *ngIf="cart$ | async as cart">
+      <span>Total</span>
+      <span>{{ (cart?.totalAmount || 0) | currency }}</span>
+    </div>
+  </mat-card>
+
+  <mat-card class="payment-card">
+    <div class="header">
+      <h2>Payment</h2>
+      <div class="secure">
+        <mat-icon>https</mat-icon>
+        <span>Secure checkout</span>
+      </div>
+    </div>
+    <form [formGroup]="form" (ngSubmit)="placeOrder()">
+    <div class="method-pills" role="radiogroup" aria-label="Payment method">
+      <label class="pill" [class.active]="method==='card'">
+        <input type="radio" formControlName="method" value="card" aria-label="Card" />
+        <span class="iconset">
+          <img src="/assets/footer/visa.svg" alt="Visa"><img src="/assets/footer/mastercard.svg" alt="Mastercard"><img src="/assets/footer/amex.svg" alt="Amex">
+        </span>
+        <span>Card</span>
+      </label>
+      <label class="pill" [class.active]="method==='upi'">
+        <input type="radio" formControlName="method" value="upi" aria-label="UPI" />
+        <mat-icon>account_balance_wallet</mat-icon>
+        <span>UPI</span>
+      </label>
+      <label class="pill" [class.active]="method==='netbanking'">
+        <input type="radio" formControlName="method" value="netbanking" aria-label="Net Banking" />
+        <mat-icon>account_balance</mat-icon>
+        <span>Net Banking</span>
+      </label>
+      <label class="pill" [class.active]="method==='cod'">
+        <input type="radio" formControlName="method" value="cod" aria-label="Cash on Delivery" />
+        <mat-icon>local_shipping</mat-icon>
+        <span>Cash on Delivery</span>
+      </label>
+    </div>
+
+    <div class="method-panel" *ngIf="method === 'card'">
+      <div class="card-logos">
+        <img src="/assets/footer/visa.svg" alt="Visa">
+        <img src="/assets/footer/mastercard.svg" alt="Mastercard">
+        <img src="/assets/footer/amex.svg" alt="Amex">
+      </div>
+      <div class="grid">
+        <mat-form-field appearance="outline">
+          <mat-label>Name on card</mat-label>
+          <input matInput formControlName="name" placeholder="Shriyam Chandra">
+        </mat-form-field>
+        <mat-form-field appearance="outline">
+          <mat-label>Card number</mat-label>
+          <input matInput formControlName="cardNumber" maxlength="19" placeholder="1234 5678 9012 3456"
+                 (input)="onCardNumberInput($event)">
+        </mat-form-field>
+        <mat-form-field appearance="outline">
+          <mat-label>Expiry (MM/YY)</mat-label>
+          <input matInput formControlName="expiry" maxlength="5" placeholder="08/28" (input)="onExpiryInput($event)">
+        </mat-form-field>
+        <mat-form-field appearance="outline">
+          <mat-label>CVV</mat-label>
+          <input matInput formControlName="cvv" maxlength="3" placeholder="123" (input)="onCvvInput($event)">
+        </mat-form-field>
+      </div>
+      <p class="mini-hint">Your card details are never stored. We use bank‑grade encryption.</p>
+    </div>
+
+    <div class="method-panel" *ngIf="method === 'upi'">
+      <mat-form-field appearance="outline" class="full">
+        <mat-label>UPI ID</mat-label>
+        <input matInput formControlName="upi" placeholder="yourname@upi">
+      </mat-form-field>
+      <p class="hint">You will see a collect request in your UPI app.</p>
+    </div>
+
+    <div class="method-panel" *ngIf="method === 'netbanking'">
+      <mat-form-field appearance="outline" class="full">
+        <mat-label>Select bank</mat-label>
+        <mat-select formControlName="bank">
+          <mat-option *ngFor="let b of banks" [value]="b">{{ b }}</mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+
+    <div class="method-panel" *ngIf="method === 'cod'">
+      <p class="hint">Pay in cash to the delivery partner. Additional verification may apply.</p>
+    </div>
+
+    <div class="actions">
+      <button mat-raised-button color="primary" class="btn-primary pay" [disabled]="!isValid() || paying" type="submit">
+        <mat-icon *ngIf="!paying">lock</mat-icon>
+        <mat-progress-spinner *ngIf="paying" diameter="18" mode="indeterminate"></mat-progress-spinner>
+        <span>{{ paying ? 'Processing...' : 'Pay Now' }}</span>
+      </button>
+      <button mat-stroked-button class="ghost" routerLink="/cart">Back to Cart</button>
+    </div>
+    </form>
+  </mat-card>
+</div>

@@ -1,0 +1,181 @@
+<!-- Book detail -->
+<div class="book-detail-container" *ngIf="bookDetail as bd">
+  <!-- LEFT: cover -->
+  <div class="book-image">
+    <img [src]="bd.book.imageUrl || '/assets/placeholder-book.png'"
+      (error)="$event.target.src='/assets/placeholder-book.png'" [alt]="bd.book.title + ' cover'" />
+  </div>
+
+  <!-- RIGHT: main info -->
+  <div class="book-info">
+    <h1 class="title">{{ bd.book.title }}</h1>
+    <div class="meta-row">
+      <span class="author">by {{ bd.book.author }}</span>
+      <span class="dot">•</span>
+      <span class="stars-inline">
+        <mat-icon *ngFor="let s of [1,2,3,4,5]" [ngClass]="{ filled: s <= Math.round(avgRating) }">star</mat-icon>
+      </span>
+      <span class="review-count">{{ bd.reviews.length }} reviews</span>
+    </div>
+
+    <p class="price">{{ bd.book.price | currency }}</p>
+
+    <!-- Stock chip + progress -->
+    <div class="stock-wrap" aria-live="polite">
+      <span class="stock-chip" [ngClass]="stockState">{{ stockLabel }}</span>
+
+      <div class="stock-bar" *ngIf="bd.book.quantityInStock > 0">
+        <div class="bar">
+          <div class="fill" [style.width.%]="stockPercent"></div>
+        </div>
+        <span class="hint">{{ stockHint }}</span>
+      </div>
+    </div>
+
+    <!-- Actions -->
+    <div class="actions">
+      <div class="quantity-selector" *ngIf="bd.book.quantityInStock > 0">
+        <button mat-icon-button (click)="decrementQuantity()" [disabled]="quantity <= 1" aria-label="Decrease quantity">
+          <mat-icon>remove</mat-icon>
+        </button>
+
+        <span class="qty">{{ quantity }}</span>
+
+        <button mat-icon-button (click)="incrementQuantity()"
+          [disabled]="quantity >= (bd.book.quantityInStock - quantityInCart)" aria-label="Increase quantity">
+          <mat-icon>add</mat-icon>
+        </button>
+      </div>
+
+      <button class="btn-primary" (click)="addToCart()"
+        [disabled]="isOutOfStock || bd.book.quantityInStock === 0">
+        Add to Cart
+      </button>
+    </div>
+
+    <p *ngIf="isOutOfStock && bd.book.quantityInStock > 0" class="out-of-stock-message">
+      You have all available items in your cart.
+    </p>
+    <p *ngIf="bd.book.quantityInStock === 0" class="out-of-stock-message">Out of stock</p>
+
+    <!-- Trust / assurance (static) -->
+    <div class="assurance-grid">
+      <div class="assurance-item">
+        <mat-icon>assignment_return</mat-icon><span>7-day easy returns</span>
+      </div>
+      <div class="assurance-item">
+        <mat-icon>verified</mat-icon><span>Quality assured</span>
+      </div>
+      <div class="assurance-item">
+        <mat-icon>lock</mat-icon><span>Secure checkout</span>
+      </div>
+      <div class="assurance-item">
+        <mat-icon>local_shipping</mat-icon><span>Fast shipping</span>
+      </div>
+    </div>
+
+    <!-- BOTTOM: Description (left, half) + Reviews summary (right, half) -->
+    <div class="bottom-info">
+      <!-- LEFT: Description -->
+      <div class="desc-wrapper">
+        <h3>Description</h3>
+        <p class="description" [class.clamped]="!showFullDesc">
+          {{ bd.book.description }}
+        </p>
+        <button mat-button class="read-more" *ngIf="(bd.book.description || '').length > 220"
+          (click)="showFullDesc = !showFullDesc">
+          {{ showFullDesc ? 'Show less' : 'Read more' }}
+        </button>
+
+        <div class="ai-summary-block">
+          <button mat-stroked-button color="primary" (click)="loadAiSummary()" [disabled]="aiLoading">
+            <mat-icon>smart_toy</mat-icon>&nbsp;AI Summary
+          </button>
+          <div class="ai-summary" *ngIf="aiSummary" [innerHTML]="aiSummaryHtml || aiSummary"></div>
+        </div>
+      </div>
+
+      <!-- RIGHT: Reviews summary card OR fallback -->
+      <aside class="reviews-card" *ngIf="bd.reviews.length; else noReviews">
+        <h3>Customer Reviews</h3>
+
+        <div class="avg-row">
+          <div class="donut-wrap">
+            <svg class="donut" viewBox="0 0 80 80" aria-hidden="true">
+              <circle class="track" cx="40" cy="40" r="36"></circle>
+              <circle class="value" cx="40" cy="40" r="36"
+                [attr.stroke-dasharray]="ratingCircumference"
+                [attr.stroke-dashoffset]="animateCharts ? ratingDashoffset : ratingCircumference"></circle>
+              <text x="40" y="44" class="num">{{ avgRating | number:'1.1-1' }}</text>
+            </svg>
+          </div>
+          <div class="avg-meta">
+            <div class="avg-stars">
+              <mat-icon *ngFor="let s of [1,2,3,4,5]" [ngClass]="{ filled: s <= Math.round(avgRating) }">star</mat-icon>
+            </div>
+            <div class="count">{{ bd.reviews.length }} reviews</div>
+          </div>
+        </div>
+
+        <div class="bars">
+          <div class="bar-row" *ngFor="let s of starsDesc">
+            <span class="label">{{ s }}</span>
+            <div class="bar">
+              <div class="fill" [style.width.%]="breakdownPercent[s] || 0"></div>
+            </div>
+            <span class="pct">{{ (breakdownPercent[s] || 0) | number:'1.0-0' }}%</span>
+          </div>
+        </div>
+
+        <button mat-stroked-button color="primary" class="write-btn" (click)="openReviewDialog()">
+          Write a review
+        </button>
+      </aside>
+
+      <ng-template #noReviews>
+        <aside class="reviews-card empty">
+          <h3>Customer Reviews</h3>
+          <p class="empty-text">No reviews yet. Be the first one to review!</p>
+          <button mat-stroked-button color="primary" class="write-btn" (click)="openReviewDialog()">
+            Write a review
+          </button>
+        </aside>
+      </ng-template>
+    </div>
+
+    <!-- Reviews Section -->
+    <div class="reviews-section" *ngIf="bd.reviews.length">
+      <h2>All Reviews</h2>
+      <div class="review-list">
+        <div class="review-item" *ngFor="let review of bookDetail.reviews">
+          <div class="review-header">
+            <div class="review-rating">
+              <mat-icon *ngFor="let s of [1,2,3,4,5]" [ngClass]="{ filled: s <= review.rating }">star</mat-icon>
+            </div>
+            <span class="review-username">{{ review.username || 'Anonymous' }}</span>
+            <span class="review-date">{{ review.reviewDate | date:'mediumDate' }}</span>
+          </div>
+          <p class="review-comment">{{ review.comment }}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Mobile CTA -->
+<div class="mobile-cta" *ngIf="bookDetail as bd" [class.disabled]="bd.book.quantityInStock === 0">
+  <div class="left">
+    <strong>{{ bd.book.price | currency }}</strong>
+    <span class="stock-chip" [ngClass]="stockState">{{ stockLabel }}</span>
+  </div>
+
+  <div class="right" *ngIf="bd.book.quantityInStock > 0">
+    <button mat-icon-button (click)="decrementQuantity()" [disabled]="quantity <= 1" aria-label="Decrease quantity">
+      <mat-icon>remove</mat-icon>
+    </button>
+    <span class="qty">{{ quantity }}</span>
+    <button mat-raised-button color="primary" (click)="addToCart()" [disabled]="isOutOfStock">Add to Cart</button>
+  </div>
+
+  <div class="right" *ngIf="bd.book.quantityInStock === 0">Out of stock</div>
+</div>

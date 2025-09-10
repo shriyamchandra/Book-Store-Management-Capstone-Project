@@ -1,0 +1,57 @@
+<footer class="site-footer" role="contentinfo">
+  <div class="footer-content container">
+    <section class="footer-col">
+      <h3>Follow us on our Social Media</h3>
+      <div class="social-list" aria-label="Social media links">
+        <a href="https://facebook.com" target="_blank" rel="noopener" aria-label="Facebook" class="social-link">
+          <img src="/assets/footer/facebook.svg" alt="Facebook" />
+        </a>
+        <a href="https://instagram.com" target="_blank" rel="noopener" aria-label="Instagram" class="social-link">
+          <img src="/assets/footer/instagram.svg" alt="Instagram" />
+        </a>
+      </div>
+    </section>
+
+    <nav class="footer-col" aria-label="Quick Links">
+      <h3>Quick Links</h3>
+      <ul class="link-list">
+        <li><a routerLink="/about">About Us</a></li>
+        <li><a routerLink="/contact">Contact Us</a></li>
+        <li><a routerLink="/bulk-purchase">Bulk Purchase</a></li>
+        <li><a routerLink="/returns">Return & Replacement</a></li>
+        <li><a routerLink="/privacy">Privacy Policy</a></li>
+        <li><a routerLink="/quick-links">Quick Links (Overview)</a></li>
+      </ul>
+    </nav>
+
+    <section class="footer-col about">
+      <h3>{{ aboutTitle }}</h3>
+      <p>{{ aboutText }}</p>
+    </section>
+
+    <section class="footer-col brand">
+      <img [src]="brandLogo" alt="Brand logo" />
+    </section>
+  </div>
+
+  <div class="footer-bottom">
+    <div class="payments">
+      <img src="/assets/footer/visa.svg" alt="Visa" />
+      <img src="/assets/footer/mastercard.svg" alt="Mastercard" />
+      <img src="/assets/footer/amex.svg" alt="American Express" />
+      <img src="/assets/footer/apple-pay.svg" alt="Apple Pay" />
+    </div>
+    <div class="legal-links">
+      <span>© {{ currentYear }}, Bookstore</span>
+      <a routerLink="/refund">Refund policy</a>
+      <a routerLink="/privacy">Privacy policy</a>
+      <a routerLink="/terms">Terms of service</a>
+      <a routerLink="/shipping">Shipping policy</a>
+      <a routerLink="/contact">Contact information</a>
+    </div>
+  </div>
+
+  <a class="whatsapp-fab" [href]="'https://wa.me/' + whatsappNumber" target="_blank" rel="noopener" aria-label="Chat on WhatsApp">
+    <img src="/assets/footer/whatsapp.svg" alt="WhatsApp" />
+  </a>
+</footer>
